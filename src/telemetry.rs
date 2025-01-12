@@ -2,6 +2,7 @@ use eyre::{Context, Result};
 
 use tracing::{subscriber::set_global_default, Subscriber};
 use tracing_bunyan_formatter::{BunyanFormattingLayer, JsonStorageLayer};
+use tracing_error::ErrorLayer;
 use tracing_log::LogTracer;
 use tracing_subscriber::{fmt::MakeWriter, layer::SubscriberExt, EnvFilter, Registry};
 
@@ -18,6 +19,7 @@ where
     let formatting_layer = BunyanFormattingLayer::new(name, sink);
     Registry::default()
         .with(env_filter)
+        .with(ErrorLayer::default())
         .with(JsonStorageLayer)
         .with(formatting_layer)
 }

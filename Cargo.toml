@@ -12,13 +12,20 @@ name = "zero2prod"
 
 [dependencies]
 axum = "0.8.1"
+bb8 = "0.9.0"
+bb8-postgres = "0.9.0"
 color-eyre = "0.6.3"
 config = "0.15.5"
 eyre = "0.6.12"
+rustls = "0.23.21"
+secrecy = { version = "0.10.3", features = ["serde"] }
 serde = { version = "1.0.217", features = ["derive"] }
 tokio = { version = "1.43.0", features = ["macros", "rt-multi-thread"] }
+tokio-postgres = "0.7.12"
+tokio-postgres-rustls = "0.13.0"
 tracing = "0.1.41"
 tracing-bunyan-formatter = "0.3.10"
+tracing-error = "0.2.1"
 tracing-log = "0.2.0"
 tracing-subscriber = { version = "0.3.19", features = ["registry", "env-filter"] }
 uuid = { version = "1.11.1", features = ["v4"] }

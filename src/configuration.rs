@@ -5,12 +5,22 @@ const CONFIGURATION_FILE: &str = "configuration.yaml";
 #[derive(serde::Deserialize)]
 pub struct Settings {
     pub application: ApplicationSettings,
+    pub database: DatabaseSettings,
 }
 
 #[derive(serde::Deserialize)]
 pub struct ApplicationSettings {
     pub host: String,
     pub port: u16,
+}
+
+#[derive(serde::Deserialize)]
+pub struct DatabaseSettings {
+    pub host: String,
+    pub port: u16,
+    pub user: String,
+    pub database: String,
+    pub password: secrecy::SecretBox<String>,
 }
 
 pub fn get_configuration() -> Result<Settings> {
