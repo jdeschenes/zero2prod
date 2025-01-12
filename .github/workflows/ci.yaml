@@ -5,6 +5,8 @@ jobs:
   CI:
     runs-on: ubuntu-latest
     steps:
+      - name: Install Dependencies
+        run: rustup component add llvm-tools-preview
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Format
