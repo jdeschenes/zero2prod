@@ -90,9 +90,6 @@ pub async fn configure_database(
         )
         .await
         .expect("Unable to create database");
-    // Open a Connection
-    // Create Database
-    // Migrate
 
     config
         .host(&configuration.host)
