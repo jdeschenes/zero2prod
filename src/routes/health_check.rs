@@ -39,7 +39,7 @@ where
 )]
 pub async fn health_check(State(pool): State<ConnectionPool>) -> Result<(), HealthCheckError> {
     let conn = pool.get().await.context("Getting a connection pool")?;
-    conn.query_one("SELECTx1", &[])
+    conn.query_one("SELECT 1", &[])
         .await
         .context("Perform databse query")?;
     tracing::info!("Checking health check");

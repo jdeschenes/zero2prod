@@ -4,12 +4,12 @@ use eyre::{Context, Result};
 
 use bb8::Pool;
 use bb8_postgres::PostgresConnectionManager;
+use rustls::ClientConfig;
 use secrecy::ExposeSecret;
 use tokio::net::TcpListener;
 use tokio_postgres::Config;
 use tokio_postgres_rustls::MakeRustlsConnect;
 
-use rustls::ClientConfig;
 use zero2prod::telemetry::{get_subscriber, init_subscriber};
 use zero2prod::{configuration::get_configuration, run};
 
@@ -30,6 +30,7 @@ async fn main() -> Result<()> {
     let tls = MakeRustlsConnect::new(rust_tls_config);
     config
         .host(&configuration.database.host)
+        .port(configuration.database.port)
         .user(&configuration.database.user)
         .password(configuration.database.password.expose_secret())
         .dbname(&configuration.database.database);
@@ -38,7 +39,12 @@ async fn main() -> Result<()> {
         .build(manager)
         .await
         .context("Creating Database pool")?;
-    // pool.get().await.context("Grabbing connection for testing")?.query_one("SELECT 1", &[]).await.context("Querying the DB")?;
+    pool.get()
+        .await
+        .context("Grabbing connection for testing")?
+        .query_one("SELECT 1", &[])
+        .await
+        .context("Querying the DB")?;
     tracing::info!("Binding to: {}", address);
     let listener = TcpListener::bind(address)
         .await
